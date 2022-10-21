@@ -1,0 +1,144 @@
+﻿<Window x:Class="TaskManager.ViewModel.ProcessList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:TaskManager.ViewModel"
+        xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=System.Diagnostics.Process"
+        mc:Ignorable="d"
+        Title="ProcessList" Height="720" Width="1080">
+    <Window.Resources>
+        <local:ProcessListViewModel x:Key="vm" />
+    </Window.Resources>
+    <Grid Height="720" Width="1080" DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0">Search:</TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ProcessFilter, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBlock Grid.Row="0" Grid.Column="1">Refresh rate [s]</TextBlock>
+            <xctk:IntegerUpDown
+                Grid.Row="1" Grid.Column="1"
+                DefaultValue="1" Minimum="1" Maximum="60"
+                Value="{Binding RefreshRateSeconds}" />
+            <Button Grid.Row="1" Grid.Column="2" Command="{Binding ToggleAutoRefreshCommand}">
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShouldAutoRefresh}" Value="True">
+                                    <Setter Property="Text" Value="Auto refresh: on"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShouldAutoRefresh}" Value="False">
+                                    <Setter Property="Text" Value="Auto refresh: off"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="3" Command="{Binding RefreshProcessesCommand}">REFRESH</Button>
+        </Grid>
+        <ListView Grid.Row="1" Grid.Column="0"
+                  ItemsSource="{Binding Path=CollectionView}"
+                  VerticalContentAlignment="Top"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.CanContentScroll="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                </Style>
+                <InputBindingCollection>
+                    <MouseBinding></MouseBinding>
+                </InputBindingCollection>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="60">
+                        <GridViewColumnHeader Content="PID">
+                            <GridViewColumnHeader.InputBindings>
+                                <MouseBinding
+                                    MouseAction="LeftClick"
+                                    Command="{Binding SortListViewCommand}"
+                                    CommandParameter="Id" />
+                            </GridViewColumnHeader.InputBindings>
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                <TextBlock Text="{Binding Id}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="200">
+                        <GridViewColumnHeader Content="Name">
+                            <GridViewColumnHeader.InputBindings>
+                                <MouseBinding
+                                    MouseAction="LeftClick"
+                                    Command="{Binding SortListViewCommand}"
+                                    CommandParameter="ProcessName" />
+                            </GridViewColumnHeader.InputBindings>
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                <TextBlock Text="{Binding ProcessName}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="120">
+                        <GridViewColumnHeader Content="Processor time">
+                            <GridViewColumnHeader.InputBindings>
+                                <MouseBinding
+                                    MouseAction="LeftClick"
+                                    Command="{Binding SortListViewCommand}"
+                                    CommandParameter="TotalProcessorTime.Milliseconds" />
+                            </GridViewColumnHeader.InputBindings>
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                <TextBlock Text="{Binding TotalProcessorTime.Milliseconds}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="140">
+                        <GridViewColumnHeader Content="Memory">
+                            <GridViewColumnHeader.InputBindings>
+                                <MouseBinding
+                                    MouseAction="LeftClick"
+                                    Command="{Binding SortListViewCommand}"
+                                    CommandParameter="WorkingSet64" />
+                            </GridViewColumnHeader.InputBindings>
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                <TextBlock Text="{Binding WorkingSet64}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ListView DataContext="{StaticResource vm}"
+                      ItemsSource="{Binding Path=SelectedProcess.Children}">
+                
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>
