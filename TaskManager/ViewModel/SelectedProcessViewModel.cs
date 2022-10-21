@@ -15,8 +15,11 @@ public class SelectedProcessViewModel : INotifyPropertyChanged
         get { return _parent; }
         set
         {
-            _parent = value;
-            OnPropertyChanged(nameof(Parent));
+            if (!(Parent != null && value == null))
+            {
+                _parent = value;
+                OnPropertyChanged(nameof(Parent));
+            }
         }
     }
 
@@ -42,12 +45,17 @@ public class SelectedProcessViewModel : INotifyPropertyChanged
     {
         if (_parent != null)
         {
+            Children.Clear();
             _parent = Process.GetProcessById(_parent.Id);
             List<Process> childrenList = ProcessProvider.CreateProcessChildrenList(_parent);
+            
             foreach (Process child in childrenList)
             {
                 Children.Add(child);
             }
+            
+            //todo: debug
+            childrenList.Add(_parent);
         }
     }
 

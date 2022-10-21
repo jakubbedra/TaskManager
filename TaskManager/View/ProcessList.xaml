@@ -60,14 +60,13 @@
                   ItemsSource="{Binding Path=CollectionView}"
                   VerticalContentAlignment="Top"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"
-                  ScrollViewer.CanContentScroll="True">
+                  ScrollViewer.CanContentScroll="True"
+                  SelectedItem="{Binding SelectedProcessViewModel.Parent}"
+                  SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="VerticalAlignment" Value="Top"></Setter>
                 </Style>
-                <InputBindingCollection>
-                    <MouseBinding></MouseBinding>
-                </InputBindingCollection>
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
@@ -134,10 +133,67 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBlock
+            Grid.Column="1" Grid.Row="0"
+            Text="{Binding SelectedProcessViewModel.Parent.ProcessName}"
+            FontSize="24">
+        </TextBlock>
         <Grid Grid.Row="1" Grid.Column="1">
-            <ListView DataContext="{StaticResource vm}"
-                      ItemsSource="{Binding Path=SelectedProcess.Children}">
-                
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--tutaj jebnac 0 rzad ktory bedzie mial parent detailed info-->
+            <!--albo wsm dac to tez do kolekcji i tylko podswietlic xd-->
+            <Button Height="30" Width="80">KILL</Button>
+            <ListView
+                Grid.Row="1"
+                DataContext="{StaticResource vm}"
+                ItemsSource="{Binding Path=SelectedProcessViewModel.Children}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                        <!--
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding}" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=Parent}">
+                                <Setter Property="Background" Value="MediumPurple"></Setter>    
+                            </DataTrigger>
+                        </Style.Triggers
+                        -->
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="60" Header="PID">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                    <TextBlock Text="{Binding Id}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" Header="Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                    <TextBlock Text="{Binding ProcessName}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" Header="Processor time">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                    <TextBlock Text="{Binding TotalProcessorTime.Milliseconds}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="140" Header="Memory">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type diagnostics:Process}">
+                                    <TextBlock Text="{Binding WorkingSet64}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
             </ListView>
         </Grid>
     </Grid>

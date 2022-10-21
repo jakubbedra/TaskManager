@@ -13,7 +13,7 @@ namespace TaskManager.ViewModel;
 
 public class ProcessListViewModel : INotifyPropertyChanged
 {
-    public SelectedProcessViewModel SelectedProcess { get; set; }
+    public SelectedProcessViewModel SelectedProcessViewModel { get; set; }
 
     public ObservableCollection<Process> Processes { get; set; }
 
@@ -54,7 +54,7 @@ public class ProcessListViewModel : INotifyPropertyChanged
 
     public ProcessListViewModel()
     {
-        SelectedProcess = new SelectedProcessViewModel();
+        SelectedProcessViewModel = new SelectedProcessViewModel();
         ProcessFilter = string.Empty;
         SortListViewCommand = new SortListViewCommand(this);
         RefreshProcessesCommand = new RefreshProcessesCommand(this);
@@ -102,7 +102,7 @@ public class ProcessListViewModel : INotifyPropertyChanged
         {
             Processes.Add(process);
         }
-        SelectedProcess.Refresh();
+        SelectedProcessViewModel.Refresh();
     }
 
     public void SortProcesses(string columnName)

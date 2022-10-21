@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "U1GVw6kjUAnzV3pAijjNDEjhc1ieWt+WZMXqPI4rM/9zuuLL4dv8xaYsRcHDRVUNxHHREKwGbUOQjnPWTNqovg==",
+  "dgSpecHash": "+8JDDS1lyqkzXEAykI8EfvubbidfIUs4hugIUCke5Hb50UZQd3XySBSHELVejJx2XcNR4s2CesXuamtrijJ1Qg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\theKonfyrm\\RiderProjects\\TaskManager\\TaskManager\\TaskManager.csproj",
+  "projectFilePath": "C:\\Users\\The Konfyrm\\RiderProjects\\TaskManager\\TaskManager\\TaskManager.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\theKonfyrm\\.nuget\\packages\\extended.wpf.toolkit\\4.4.0\\extended.wpf.toolkit.4.4.0.nupkg.sha512",
-    "C:\\Users\\theKonfyrm\\.nuget\\packages\\system.codedom\\7.0.0-rc.2.22472.3\\system.codedom.7.0.0-rc.2.22472.3.nupkg.sha512",
-    "C:\\Users\\theKonfyrm\\.nuget\\packages\\system.management\\7.0.0-rc.2.22472.3\\system.management.7.0.0-rc.2.22472.3.nupkg.sha512"
+    "C:\\Users\\The Konfyrm\\.nuget\\packages\\extended.wpf.toolkit\\4.4.0\\extended.wpf.toolkit.4.4.0.nupkg.sha512",
+    "C:\\Users\\The Konfyrm\\.nuget\\packages\\system.codedom\\7.0.0-rc.2.22472.3\\system.codedom.7.0.0-rc.2.22472.3.nupkg.sha512",
+    "C:\\Users\\The Konfyrm\\.nuget\\packages\\system.management\\7.0.0-rc.2.22472.3\\system.management.7.0.0-rc.2.22472.3.nupkg.sha512"
   ],
   "logs": []
 }
